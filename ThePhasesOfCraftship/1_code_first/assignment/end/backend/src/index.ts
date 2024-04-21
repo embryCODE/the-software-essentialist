@@ -64,9 +64,13 @@ app.post('/users/new', async (req: Request, res: Response) => {
       return res.status(409).json({ error: Errors.UsernameAlreadyTaken, data: undefined, success: false })
     }
 
-    const user = await prisma.user.create({ data: { ...userData, password: generateRandomPassword(10) } });
+    const { user, member } = await prisma.$transaction(async (tx) => {
+      const user = await prisma.user.create({ data: { ...userData, password: generateRandomPassword(10) } });
+      const member = await prisma.member.create({ data: { userId: user.id }})
+      return { user, member }
+    })
     
-    return res.status(201).json({ error: undefined, data: parseUserForResponse(user), succes: true });
+    return res.status(201).json({ error: undefined, data: parseUserForResponse(user), success: true });
   } catch (error) {
     console.log(error)
     // Return a failure error response
@@ -167,3 +171,8 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+
+prisma.post.findMany({})
+  .then((posts) => console.log(posts))
+  .catch((err) => console.log(err));
