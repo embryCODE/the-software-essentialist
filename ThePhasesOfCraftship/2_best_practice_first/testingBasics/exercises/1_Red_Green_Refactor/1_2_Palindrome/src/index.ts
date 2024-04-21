@@ -13,9 +13,8 @@
 // - [ ] There is no duplication in my test code or my production code
 
 export function palindrome(input: string): boolean {
-  if (input === 'Momx') {
-    return false;
-  }
+  const s = input.replace(/\s/g, '').toLowerCase();
+  const r = s.split('').reverse().join('');
 
-  return true;
+  return s === r;
 }
