@@ -9,7 +9,11 @@ describe('palindrome', () => {
     expect(palindrome('Mom')).toBe(true);
   });
 
-  it('should return true if the input is a "Mom"', () => {
+  it('should return true if the input is a "MoM"', () => {
     expect(palindrome('MoM')).toBe(true);
+  });
+
+  it('should return false if the input is a "Momx"', () => {
+    expect(palindrome('Momx')).toBe(false);
   });
 });
