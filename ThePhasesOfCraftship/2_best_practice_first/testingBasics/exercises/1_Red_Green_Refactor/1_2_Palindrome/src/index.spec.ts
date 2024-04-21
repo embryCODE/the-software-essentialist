@@ -16,4 +16,8 @@ describe('palindrome', () => {
   it('should return false if the input is a "Momx"', () => {
     expect(palindrome('Momx')).toBe(false);
   });
+
+  it('should return false if the input is a "Was It A Rat I Saw"', () => {
+    expect(palindrome('Was It A Rat I Saw')).toBe(true);
+  });
 });
