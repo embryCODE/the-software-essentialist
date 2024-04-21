@@ -20,4 +20,8 @@ describe('palindrome', () => {
   it('should return false if the input is a "Was It A Rat I Saw"', () => {
     expect(palindrome('Was It A Rat I Saw')).toBe(true);
   });
+
+  it('should return false if the input is a "Never Odd or Even"', () => {
+    expect(palindrome('Never Odd or Even')).toBe(true);
+  });
 });
