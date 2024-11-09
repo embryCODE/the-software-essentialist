@@ -1,7 +1,6 @@
 import express from "express";
 
 import { parseForResponse } from "../shared/utils";
-import Errors from "../shared/constants";
 import { CreateStudentDTO, StudentID } from "../dtos/students";
 import StudentService from "../services/students";
 import { ErrorHandler } from "../shared/errors";
@@ -14,7 +13,7 @@ class StudentsController {
     private errorHandler: ErrorHandler
   ) {
     this.router = express.Router();
-    this.routes();
+    this.setupRoutes();
     this.setupErrorHandler();
   }
 
@@ -26,7 +25,7 @@ class StudentsController {
     this.router.use(this.errorHandler);
   }
 
-  private routes() {
+  private setupRoutes() {
     this.router.post("/", this.createStudent);
     this.router.get("/", this.getAllStudents);
     this.router.get("/:id", this.getStudent);
@@ -74,13 +73,6 @@ class StudentsController {
       const dto = StudentID.fromRequestParams(req.params);
       const data = await this.studentService.getStudent(dto);
 
-      if (!data) {
-        return res.status(404).json({
-          error: Errors.StudentNotFound,
-          data: undefined,
-          success: false,
-        });
-      }
       res.status(200).json({
         error: undefined,
         data: parseForResponse(data),
